@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- 👉 修复核心：加入 maximum-scale=1.0 和 user-scalable=no，从底层锁死视口，绝对禁止页面放大缩小 -->
+    <!-- 底层死锁视口，禁止缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>鼎盛轩 · 豪华中式大酒楼</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -10,7 +10,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        /* 👉 修复核心：锁定全局页面，防止任何橡皮筋回弹和视口错位 */
         html, body { 
             background-color: #FBF9F5; 
             color: #2C221E; 
@@ -27,7 +26,8 @@
         .animate-marquee { animation: marquee 18s linear infinite; }
     </style>
 </head>
-<body class="pb-20 flex flex-col h-screen overflow-hidden">
+<!-- 👉 核心修复：使用 h-[100dvh] 代替 h-screen，完美适应手机端软键盘和视口高度变化 -->
+<body class="pb-20 flex flex-col h-[100dvh] overflow-hidden">
 
     <!-- 顶端流光跑马灯公告条[cite: 8] -->
     <div class="bg-gradient-to-r from-[#D4AF37] via-[#E6C687] to-[#D4AF37] text-[#2C221E] text-xs font-bold py-1.5 overflow-hidden whitespace-nowrap shadow-sm flex-shrink-0">
@@ -141,7 +141,6 @@
                         <button type="button" onclick="setNoteTag('走葱')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">走葱</button>
                         <button type="button" onclick="setNoteTag('微辣')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">微辣</button>
                     </div>
-                    <!-- 👉 备注输入框字号设为 text-base (16px)，配合视口锁定，杜绝 iOS 自动放大 -->
                     <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
                 </div>
             </div>
@@ -167,7 +166,6 @@
             </div>
             <div class="mt-3 pt-3 border-t border-[#E6D5B8] space-y-2">
                 <label class="text-xs text-[#5C4A42] font-semibold block">📱 填写手机号（后台会员积分与出餐联动）：</label>
-                <!-- 👉 手机号输入框字号设为 text-base (16px)，配合视口锁定，杜绝 iOS 自动放大 -->
                 <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
             </div>
             <div class="mt-4 pt-2">
@@ -578,9 +576,15 @@
             document.getElementById('order-success-modal').classList.add('hidden');
         }
 
-        // ☁️ 异步云端提交 (已接入全屏成功弹窗与时价待办队列)[cite: 8]
+        // ☁️ 异步云端提交 (已加入强制失焦与滚动归位，彻底根治页面上移问题)[cite: 8]
         async function checkoutOrder() {
-            const phone = document.getElementById('customer-phone').value.trim();
+            const phoneInput = document.getElementById('customer-phone');
+            const phone = phoneInput.value.trim();
+            
+            // 👉 核心修复：立即强制输入框失焦并收起键盘，同时强行重置页面滚动位置到最顶端
+            phoneInput.blur();
+            window.scrollTo(0, 0);
+
             let totalCount = 0;
             Object.values(cart).forEach(arr => arr.forEach(item => totalCount += item.qty));
 
@@ -619,7 +623,7 @@
             // 👉 1. 保存到 Firebase 会员云端画像[cite: 8]
             await updateCustomerProfileInCloud(phone, orderItemsData, orderTotalPrice);
 
-            // 👉 2. 如果包含时价菜，写入后台待核算队列 (market_price_queue)[cite: 8]
+            // 👉 2. 如果包含时价菜，写入后台待核算队列[cite: 8]
             if (hasMarketPrice) {
                 try {
                     await db.collection('market_price_queue').add({
@@ -644,13 +648,14 @@
             cart = {};
             updateCartUI();
             toggleCartModal();
-            document.getElementById('customer-phone').value = '';
+            phoneInput.value = '';
             filterMenu('seafood');
 
             btn.disabled = false;
             btn.innerText = '确认提交订单 (云端同步至后台)';
 
-            // 👉 弹出强制居中的全屏成功遮罩弹窗
+            // 👉 二次确保视口归位，并弹出强制居中的成功弹窗
+            window.scrollTo(0, 0);
             document.getElementById('success-modal-title').innerText = `🎉 鼎盛轩下单成功！桌号：${currentTable} 桌`;
             document.getElementById('order-success-modal').classList.remove('hidden');
         }
@@ -658,7 +663,7 @@
         // 默认加载生猛海鲜[cite: 8]
         filterMenu('seafood');
 
-        // ☁️ 核心云端同步函数：更新 Firebase 上的会员画像数据[cite: 8]
+        // ☁️ 核心云端同步函数[cite: 8]
         async function updateCustomerProfileInCloud(customerPhone, currentOrderItems, currentOrderTotal) {
             try {
                 const memberRef = db.collection('restaurant_members').doc(customerPhone);
@@ -713,7 +718,6 @@
                 dynamicTags.push('活跃会员');
                 customer.tags = dynamicTags;
 
-                // 写入 Firebase 云数据库[cite: 8]
                 await memberRef.set(customer);
                 console.log(`[Firebase 云端会员画像保存成功] 手机号: ${customerPhone}`, customer);
             } catch (error) {
