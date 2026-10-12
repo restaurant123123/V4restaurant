@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <!-- 顶部沉浸式招牌区 (已适当上移瘦身，留出更多菜品空间)[cite: 7] -->
+    <!-- 顶部沉浸式招牌区[cite: 7] -->
     <div class="relative bg-cover bg-center py-3 px-4 text-center border-b border-[#E6D5B8] overflow-hidden flex-shrink-0 shadow-md" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80')">
         <div class="absolute inset-0 bg-gradient-to-t from-[#2C221E]/95 via-[#2C221E]/65 to-black/40 backdrop-blur-[1px]"></div>
         <div class="relative z-10 flex flex-col items-center">
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <!-- 顶部横向滚动分类导航条 (已紧凑化)[cite: 7] -->
+    <!-- 顶部横向滚动分类导航条[cite: 7] -->
     <div class="bg-[#F2EDE4] border-b border-[#E6D5B8] px-3 py-2 flex space-x-2 overflow-x-auto no-scrollbar flex-shrink-0 shadow-sm">
         <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition">
             🦐 生猛海鲜
@@ -70,14 +70,14 @@
         </button>
     </div>
 
-    <!-- 主体菜单展示区 (拥有最大化纵向展示空间)[cite: 7] -->
+    <!-- 主体菜单展示区[cite: 7] -->
     <div class="flex-1 overflow-y-auto p-3 bg-[#FBF9F5]">
         <div id="menu-list" class="grid grid-cols-2 gap-2.5 items-stretch">
             <!-- 动态由 JS 渲染[cite: 7] -->
         </div>
     </div>
 
-    <!-- 底部悬浮购物车栏 (已优化瘦身，不占多余空间) -->
+    <!-- 底部悬浮购物车栏 -->
     <div class="absolute bottom-0 left-0 right-0 bg-[#FFFDF9]/95 backdrop-blur-xl border-t border-[#E6D5B8] px-4 py-2 flex justify-between items-center z-30 shadow-2xl">
         <div onclick="toggleCartModal()" class="cursor-pointer flex items-center space-x-2.5">
             <div class="relative bg-[#D4AF37] p-2.5 rounded-xl text-white font-black shadow-md text-base">
@@ -133,8 +133,8 @@
                         <button type="button" onclick="setNoteTag('走葱')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">走葱</button>
                         <button type="button" onclick="setNoteTag('微辣')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">微辣</button>
                     </div>
-                    <!-- 已设为 text-base 防止 iOS 放大[cite: 7] -->
-                    <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
+                    <!-- 备注输入框字号恢复为原先的 text-xs[cite: 7] -->
+                    <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-xs text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
                 </div>
             </div>
 
@@ -159,8 +159,8 @@
             </div>
             <div class="mt-3 pt-3 border-t border-[#E6D5B8] space-y-2">
                 <label class="text-xs text-[#5C4A42] font-semibold block">📱 填写手机号（后台会员积分与出餐联动）：</label>
-                <!-- 已设为 text-base 防止 iOS 放大[cite: 7] -->
-                <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
+                <!-- 手机号输入框字号恢复为原先的 text-sm[cite: 7] -->
+                <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-sm text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
             </div>
             <div class="mt-4 pt-2">
                 <button id="checkout-btn" onclick="checkoutOrder()" class="w-full bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white font-bold py-3.5 rounded-xl shadow-lg text-base active:scale-95 transition">
@@ -188,7 +188,7 @@
         </div>
     </div>
 
-    <!-- 👉 新增：全屏居中下单成功遮罩弹窗 (完美解决 iOS 放大导致提示不可见的问题) -->
+    <!-- 全屏居中下单成功遮罩弹窗 -->
     <div id="order-success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#FFFDF9] border border-[#E6D5B8] rounded-[2rem] p-6 max-w-sm w-full shadow-2xl text-center space-y-4">
             <div class="text-5xl">🎉</div>
@@ -305,7 +305,7 @@
         let activeModalDishId = null;
         let currentModalQty = 1;
 
-        // 菜品卡片渲染 (图片高度 h-28)[cite: 7]
+        // 菜品卡片渲染 (图片高度 h-28，标签已改为“厨师推荐”)[cite: 7]
         function renderMenu(category = 'seafood') {
             const container = document.getElementById('menu-list');
             container.innerHTML = '';
@@ -326,7 +326,7 @@
                             <img src="${dish.img}" alt="${dish.name}" class="w-full h-full object-cover">
                             ${dish.isRec ? `
                                 <div class="absolute top-1.5 left-1.5 z-20 bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 text-[10px] font-black px-1.5 py-0.5 rounded-md shadow flex items-center space-x-1">
-                                    <span>👨‍🍳 推荐</span>
+                                    <span>👨‍🍳 厨师推荐</span>
                                 </div>
                             ` : ''}
                         </div>
