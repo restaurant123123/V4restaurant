@@ -72,7 +72,7 @@
 
     <!-- 主体菜单展示区 -->
     <div class="flex-1 overflow-y-auto p-3.5 bg-[#FBF9F5]">
-        <div id="menu-list" class="grid grid-cols-2 gap-3.5 items-stretch">
+        <div id="menu-list" class="grid grid-cols-2 gap-3 items-stretch">
             <!-- 动态由 JS 渲染 -->
         </div>
     </div>
@@ -133,7 +133,8 @@
                         <button type="button" onclick="setNoteTag('走葱')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">走葱</button>
                         <button type="button" onclick="setNoteTag('微辣')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">微辣</button>
                     </div>
-                    <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-xs text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
+                    <!-- 已防iOS放大：字号设为 text-base (16px) -->
+                    <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
                 </div>
             </div>
 
@@ -158,7 +159,8 @@
             </div>
             <div class="mt-3 pt-3 border-t border-[#E6D5B8] space-y-2">
                 <label class="text-xs text-[#5C4A42] font-semibold block">📱 填写手机号（后台会员积分与出餐联动）：</label>
-                <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-sm text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
+                <!-- 已防iOS放大：字号设为 text-base (16px) -->
+                <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
             </div>
             <div class="mt-4 pt-2">
                 <button id="checkout-btn" onclick="checkoutOrder()" class="w-full bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white font-bold py-3.5 rounded-xl shadow-lg text-base active:scale-95 transition">
@@ -222,7 +224,7 @@
             setTimeout(() => toast.classList.add('opacity-0'), 2500);
         }
 
-        // 全菜单 50 道菜品：严格锁定 5 大时价海鲜，其余全部配好固定价与 100% 覆盖的高清诱人美食照片
+        // 全菜单 50 道菜品：严格锁定 5 大时价海鲜，其余全部配好固定价与 100% 覆盖的高清诱人美食照片[cite: 7]
         const dishes = [
             // ==================== 1. 生猛海鲜 ====================
             { id: 1, cat: 'seafood', name: '黑椒黄油焗波士顿龙虾', desc: '波士顿鲜活大龙虾，黄油黑椒浓香焗制', price: 0, isMarket: true, img: 'images/longxia.jpg'},
@@ -291,6 +293,7 @@
         let activeModalDishId = null;
         let currentModalQty = 1;
 
+        // 已优化：图片高度改为 h-28，内边距调优，视觉更紧凑美观
         function renderMenu(category = 'seafood') {
             const container = document.getElementById('menu-list');
             container.innerHTML = '';
@@ -306,29 +309,29 @@
                 const priceDisplay = dish.isMarket ? '<span class="text-[#D4AF37] font-black text-base">时价</span>' : `<span class="text-[#C59B27] font-black text-base">RM ${dish.price.toFixed(2)}</span>`;
 
                 const html = `
-                    <div class="bg-white border border-[#E6D5B8] rounded-2xl p-3 shadow-sm flex flex-col justify-between transition hover:shadow-md">
-                        <div class="relative w-full h-40 rounded-xl overflow-hidden mb-3 bg-[#F2EDE4] flex-shrink-0">
+                    <div class="bg-white border border-[#E6D5B8] rounded-2xl p-2.5 shadow-sm flex flex-col justify-between transition hover:shadow-md">
+                        <div class="relative w-full h-28 rounded-xl overflow-hidden mb-2.5 bg-[#F2EDE4] flex-shrink-0">
                             <img src="${dish.img}" alt="${dish.name}" class="w-full h-full object-cover">
                             ${dish.isRec ? `
-                                <div class="absolute top-2 left-2 z-20 bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 text-[11px] font-black px-2 py-0.5 rounded-lg shadow flex items-center space-x-1">
-                                    <span>👨‍🍳 厨师推荐</span>
+                                <div class="absolute top-1.5 left-1.5 z-20 bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 text-[10px] font-black px-1.5 py-0.5 rounded-md shadow flex items-center space-x-1">
+                                    <span>👨‍🍳 推荐</span>
                                 </div>
                             ` : ''}
                         </div>
 
                         <div class="flex-1 flex flex-col justify-between">
                             <div>
-                                <h4 class="font-black text-[#2C221E] text-base leading-snug line-clamp-2">${dish.name}</h4>
-                                <p class="text-xs text-[#7A6B63] line-clamp-2 mt-1.5 leading-relaxed">${dish.desc}</p>
+                                <h4 class="font-black text-[#2C221E] text-sm leading-snug line-clamp-2">${dish.name}</h4>
+                                <p class="text-[11px] text-[#7A6B63] line-clamp-2 mt-1 leading-relaxed">${dish.desc}</p>
                             </div>
 
-                            <div class="flex justify-between items-center mt-3.5 pt-2.5 border-t border-[#F2EDE4]">
+                            <div class="flex justify-between items-center mt-2.5 pt-2 border-t border-[#F2EDE4]">
                                 ${priceDisplay}
-                                <div class="flex items-center space-x-1.5">
+                                <div class="flex items-center space-x-1">
                                     ${totalQtyForDish > 0 ? `
-                                        <span class="text-[#C59B27] font-bold text-xs bg-[#F2EDE4] px-2 py-1 rounded-lg">已选 ${totalQtyForDish}</span>
+                                        <span class="text-[#C59B27] font-bold text-[11px] bg-[#F2EDE4] px-1.5 py-0.5 rounded-md">已选 ${totalQtyForDish}</span>
                                     ` : ''}
-                                    <button onclick="openDishModal(${dish.id})" class="bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white px-4 py-2 rounded-full text-xs font-bold shadow active:scale-95 transition">
+                                    <button onclick="openDishModal(${dish.id})" class="bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white px-3 py-1.5 rounded-full text-xs font-bold shadow active:scale-95 transition">
                                         加入 +
                                     </button>
                                 </div>
@@ -588,7 +591,7 @@
 
             const orderTotalPrice = window.currentCartTotalPrice || 0;
 
-            // 👉 1. 保存到 Firebase 会员云端画像[cite: 1]
+            // 👉 1. 保存到 Firebase 会员云端画像
             await updateCustomerProfileInCloud(phone, orderItemsData, orderTotalPrice);
 
             // 👉 2. 如果包含时价菜，写入后台待核算队列 (market_price_queue)
@@ -627,7 +630,7 @@
         // 默认加载生猛海鲜
         filterMenu('seafood');
 
-        // ☁️ 核心云端同步函数：更新 Firebase 上的会员画像数据[cite: 1]
+        // ☁️ 核心云端同步函数：更新 Firebase 上的会员画像数据
         async function updateCustomerProfileInCloud(customerPhone, currentOrderItems, currentOrderTotal) {
             try {
                 const memberRef = db.collection('restaurant_members').doc(customerPhone);
@@ -682,7 +685,7 @@
                 dynamicTags.push('活跃会员');
                 customer.tags = dynamicTags;
 
-                // 写入 Firebase 云数据库[cite: 1]
+                // 写入 Firebase 云数据库
                 await memberRef.set(customer);
                 console.log(`[Firebase 云端会员画像保存成功] 手机号: ${customerPhone}`, customer);
             } catch (error) {
