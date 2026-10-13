@@ -26,7 +26,7 @@
         .animate-marquee { animation: marquee 18s linear infinite; }
     </style>
 </head>
-<!-- 恢复自然流畅的网页滚动与大气空间 -->
+<!-- 恢复自然流畅的网页滚动与舒展空间 -->
 <body class="min-h-screen pb-28 flex flex-col">
 
     <!-- 顶端流光跑马灯公告条 -->
@@ -56,24 +56,24 @@
         </div>
     </div>
 
-    <!-- 👉 专项大尺寸优化：顶部横向滚动分类导航条 (极大增加高度、按钮尺寸与字号) -->
-    <div class="sticky top-0 z-20 bg-[#F2EDE4] border-b border-[#E6D5B8] px-4 py-4.5 flex space-x-3.5 overflow-x-auto no-scrollbar shadow-sm">
-        <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-[#D4AF37] text-white shadow-md transition">
+    <!-- 👉 精准恢复：顶部横向滚动分类导航条（恢复为您截图中精致、轻巧、清爽的原始尺寸） -->
+    <div class="sticky top-0 z-20 bg-[#F2EDE4] border-b border-[#E6D5B8] px-3 py-2 flex space-x-2 overflow-x-auto no-scrollbar shadow-sm">
+        <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition">
             🦐 生猛海鲜
         </button>
-        <button onclick="filterMenu('meat')" id="btn-meat" class="cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('meat')" id="btn-meat" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🥩 招牌肉类
         </button>
-        <button onclick="filterMenu('fry')" id="btn-fry" class="cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('fry')" id="btn-fry" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🍳 滋味小炒
         </button>
-        <button onclick="filterMenu('veg')" id="btn-veg" class="cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('veg')" id="btn-veg" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🥬 爽口时蔬
         </button>
-        <button onclick="filterMenu('staple')" id="btn-staple" class="cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('staple')" id="btn-staple" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🍚 主食白饭
         </button>
-        <button onclick="filterMenu('drink')" id="btn-drink" class="cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('drink')" id="btn-drink" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🥤 饮品甜品
         </button>
     </div>
@@ -361,14 +361,14 @@
             });
         }
 
-        // 👉 渲染时保持大尺寸按钮类名
+        // 分类切换函数（恢复原版精致按钮类名）
         function filterMenu(cat) {
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition";
+                btn.className = "cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition";
             });
             const activeBtn = document.getElementById(`btn-${cat}`);
             if(activeBtn) {
-                activeBtn.className = "cat-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-bold bg-[#D4AF37] text-white shadow-md transition";
+                activeBtn.className = "cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition";
             }
             renderMenu(cat);
         }
