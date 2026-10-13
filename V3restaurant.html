@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>鼎盛轩 · 豪华中式大酒楼</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 Firebase 官方 SDK[cite: 5] -->
+    <!-- 引入 Firebase 官方 SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -26,83 +26,83 @@
         .animate-marquee { animation: marquee 18s linear infinite; }
     </style>
 </head>
-<!-- 使用 h-[100dvh] 完美适应手机端软键盘和视口高度变化[cite: 5] -->
-<body class="pb-24 flex flex-col h-[100dvh] overflow-hidden">
+<!-- 解除高度死锁，恢复自然流畅的网页滚动与大气空间 -->
+<body class="min-h-screen pb-28 flex flex-col">
 
-    <!-- 顶端流光跑马灯公告条[cite: 5] -->
-    <div class="bg-gradient-to-r from-[#D4AF37] via-[#E6C687] to-[#D4AF37] text-[#2C221E] text-xs font-bold py-1.5 overflow-hidden whitespace-nowrap shadow-sm flex-shrink-0">
+    <!-- 顶端流光跑马灯公告条 -->
+    <div class="bg-gradient-to-r from-[#D4AF37] via-[#E6C687] to-[#D4AF37] text-[#2C221E] text-xs font-bold py-2 overflow-hidden whitespace-nowrap shadow-sm">
         <div class="animate-marquee inline-block">
             ✨ 欢迎光临【鼎盛轩】豪华大酒楼！今日生猛澳洲大龙虾、游水海鲜空运直达！贵宾订座专线：012-XXXXXXX ✨ 消费满 RM150 尊享主厨精美甜品一份 ✨
         </div>
     </div>
 
-    <!-- 顶部沉浸式招牌区 (已恢复原本大气舒展的大尺寸)[cite: 5] -->
-    <div class="relative bg-cover bg-center py-5 px-4 text-center border-b border-[#E6D5B8] overflow-hidden flex-shrink-0 shadow-md" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80')">
+    <!-- 顶部沉浸式招牌区 (恢复原本高挑、舒展的大尺寸空间) -->
+    <div class="relative bg-cover bg-center py-7 px-4 text-center border-b border-[#E6D5B8] overflow-hidden shadow-md" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80')">
         <div class="absolute inset-0 bg-gradient-to-t from-[#2C221E]/95 via-[#2C221E]/65 to-black/40 backdrop-blur-[1px]"></div>
         <div class="relative z-10 flex flex-col items-center">
-            <h1 class="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#F3E5AB] via-[#FFD700] to-[#F3E5AB] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            <h1 class="text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#F3E5AB] via-[#FFD700] to-[#F3E5AB] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                 鼎盛轩
             </h1>
-            <p class="text-[10px] text-[#E6D5B8] tracking-widest mt-0.5 uppercase font-semibold">DIING SHENG XUAN · GRAND SEAFOOD & ZICHAR</p>
-            <div class="flex items-center space-x-2 mt-2">
-                <div class="bg-black/50 border border-[#D4AF37]/60 px-3 py-1 rounded-full text-[11px] text-[#FFD700] shadow-inner backdrop-blur-md">
+            <p class="text-[11px] text-[#E6D5B8] tracking-widest mt-1 uppercase font-semibold">DIING SHENG XUAN · GRAND SEAFOOD & ZICHAR</p>
+            <div class="flex items-center space-x-2.5 mt-2.5">
+                <div class="bg-black/50 border border-[#D4AF37]/60 px-3.5 py-1.5 rounded-full text-xs text-[#FFD700] shadow-inner backdrop-blur-md">
                     📍 尊贵堂食桌位：<span id="display-table-num" class="font-bold text-white">A08 桌</span>
                 </div>
-                <!-- 查看今日已点订单按钮[cite: 5] -->
-                <button onclick="toggleTodayOrdersModal()" class="bg-[#D4AF37] text-white border border-[#FFD700] px-3 py-1 rounded-full text-[11px] font-bold shadow transition active:scale-95 flex items-center space-x-1">
+                <!-- 查看今日已点订单按钮 -->
+                <button onclick="toggleTodayOrdersModal()" class="bg-[#D4AF37] text-white border border-[#FFD700] px-3.5 py-1.5 rounded-full text-xs font-bold shadow transition active:scale-95 flex items-center space-x-1">
                     <span>📜 今日已点</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 顶部横向滚动分类导航条 (已恢复原本舒适宽松的大尺寸间距)[cite: 5] -->
-    <div class="bg-[#F2EDE4] border-b border-[#E6D5B8] px-4 py-3 flex space-x-3 overflow-x-auto no-scrollbar flex-shrink-0 shadow-sm">
-        <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition">
+    <!-- 顶部横向滚动分类导航条 (恢复原先舒适宽松的间距与大按钮) -->
+    <div class="sticky top-0 z-20 bg-[#F2EDE4] border-b border-[#E6D5B8] px-4 py-3.5 flex space-x-3 overflow-x-auto no-scrollbar shadow-sm">
+        <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition">
             🦐 生猛海鲜
         </button>
-        <button onclick="filterMenu('meat')" id="btn-meat" class="cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('meat')" id="btn-meat" class="cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🥩 招牌肉类
         </button>
-        <button onclick="filterMenu('fry')" id="btn-fry" class="cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('fry')" id="btn-fry" class="cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🍳 滋味小炒
         </button>
-        <button onclick="filterMenu('veg')" id="btn-veg" class="cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('veg')" id="btn-veg" class="cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🥬 爽口时蔬
         </button>
-        <button onclick="filterMenu('staple')" id="btn-staple" class="cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('staple')" id="btn-staple" class="cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🍚 主食白饭
         </button>
-        <button onclick="filterMenu('drink')" id="btn-drink" class="cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
+        <button onclick="filterMenu('drink')" id="btn-drink" class="cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition">
             🥤 饮品甜品
         </button>
     </div>
 
-    <!-- 主体菜单展示区[cite: 5] -->
-    <div class="flex-1 overflow-y-auto p-3 bg-[#FBF9F5]">
-        <div id="menu-list" class="grid grid-cols-2 gap-2.5 items-stretch">
-            <!-- 动态由 JS 渲染[cite: 5] -->
+    <!-- 主体菜单展示区 -->
+    <div class="flex-1 p-3.5 bg-[#FBF9F5]">
+        <div id="menu-list" class="grid grid-cols-2 gap-3 items-stretch">
+            <!-- 动态由 JS 渲染 -->
         </div>
     </div>
 
-    <!-- 底部悬浮购物车栏 (已恢复原本大气饱满、厚实的舒适大尺寸)[cite: 5] -->
-    <div class="absolute bottom-0 left-0 right-0 bg-[#FFFDF9]/95 backdrop-blur-xl border-t border-[#E6D5B8] px-5 py-3.5 flex justify-between items-center z-30 shadow-2xl">
-        <div onclick="toggleCartModal()" class="cursor-pointer flex items-center space-x-3">
-            <div class="relative bg-[#D4AF37] p-2.5 rounded-xl text-white font-black shadow-md text-base">
+    <!-- 底部悬浮购物车栏 (恢复原本大气厚实、舒适饱满的大尺寸) -->
+    <div class="fixed bottom-0 left-0 right-0 bg-[#FFFDF9]/95 backdrop-blur-xl border-t border-[#E6D5B8] px-6 py-4 flex justify-between items-center z-30 shadow-2xl">
+        <div onclick="toggleCartModal()" class="cursor-pointer flex items-center space-x-3.5">
+            <div class="relative bg-[#D4AF37] p-3 rounded-xl text-white font-black shadow-md text-lg">
                 🛒
                 <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white font-bold">0</span>
             </div>
             <div>
-                <div class="text-[11px] text-[#7A6B63]">已选 <span id="cart-count" class="text-[#2C221E] font-bold text-xs">0</span> 样菜品</div>
-                <div class="text-[#C59B27] font-black text-base">RM <span id="cart-total">0.00</span></div>
+                <div class="text-xs text-[#7A6B63]">已选 <span id="cart-count" class="text-[#2C221E] font-bold text-xs">0</span> 样菜品</div>
+                <div class="text-[#C59B27] font-black text-lg">RM <span id="cart-total">0.00</span></div>
             </div>
         </div>
-        <button onclick="toggleCartModal()" class="bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md transition active:scale-95">
+        <button onclick="toggleCartModal()" class="bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white px-5 py-3 rounded-xl font-bold text-xs shadow-md transition active:scale-95">
             查看已点清单 ➔
         </button>
     </div>
 
-    <!-- 菜品加入确认与备注弹窗[cite: 5] -->
+    <!-- 菜品加入确认与备注弹窗 -->
     <div id="dish-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#FFFDF9] border border-[#E6D5B8] rounded-[2rem] p-6 max-w-sm w-full shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-[#E6D5B8] pb-3 mb-4">
@@ -120,7 +120,7 @@
                     </div>
                 </div>
 
-                <!-- 专属海鲜做法或烹饪偏好备注标签[cite: 5] -->
+                <!-- 专属海鲜做法或烹饪偏好备注标签 -->
                 <div id="seafood-tags-container" class="space-y-2">
                     <label class="text-xs font-bold text-[#C59B27] block">🐟 推荐烹饪做法（可选）：</label>
                     <div class="flex flex-wrap gap-2">
@@ -141,7 +141,7 @@
                         <button type="button" onclick="setNoteTag('走葱')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">走葱</button>
                         <button type="button" onclick="setNoteTag('微辣')" class="text-xs bg-[#F2EDE4] text-[#5C4A42] border border-[#E6D5B8] px-3 py-1 rounded-full transition">微辣</button>
                     </div>
-                    <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
+                    <input type="text" id="dish-custom-note" placeholder="可自由填写其他特殊要求..." class="w-full bg-white border border-[#E6D5B8] rounded-xl px-3.5 py-2.5 text-xs text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <!-- 购物车核对清单弹窗[cite: 5] -->
+    <!-- 购物车核对清单弹窗 -->
     <div id="cart-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex flex-col justify-end">
         <div class="bg-[#FFFDF9] border-t border-[#E6D5B8] rounded-t-[2.5rem] p-6 max-w-md w-full mx-auto max-h-[85vh] flex flex-col shadow-2xl">
             <div class="flex justify-between items-center border-b border-[#E6D5B8] pb-3 mb-3">
@@ -166,7 +166,7 @@
             </div>
             <div class="mt-3 pt-3 border-t border-[#E6D5B8] space-y-2">
                 <label class="text-xs text-[#5C4A42] font-semibold block">📱 填写手机号（后台会员积分与出餐联动）：</label>
-                <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-base text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
+                <input type="tel" id="customer-phone" placeholder="例如：012-3456789" class="w-full bg-white border border-[#E6D5B8] rounded-xl px-4 py-2.5 text-sm text-[#2C221E] focus:outline-none focus:border-[#D4AF37]">
             </div>
             <div class="mt-4 pt-2">
                 <button id="checkout-btn" onclick="checkoutOrder()" class="w-full bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white font-bold py-3.5 rounded-xl shadow-lg text-base active:scale-95 transition">
@@ -176,7 +176,7 @@
         </div>
     </div>
 
-    <!-- 今日已点订单查看模态框[cite: 5] -->
+    <!-- 今日已点订单查看模态框 -->
     <div id="today-orders-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#FFFDF9] border border-[#E6D5B8] rounded-[2rem] p-6 max-w-md w-full shadow-2xl flex flex-col max-h-[85vh]">
             <div class="flex justify-between items-center border-b border-[#E6D5B8] pb-3 mb-3">
@@ -186,7 +186,7 @@
                 <button onclick="toggleTodayOrdersModal()" class="text-[#7A6B63] hover:text-[#2C221E] text-xl font-bold px-2">✕</button>
             </div>
             <div id="today-orders-container" class="overflow-y-auto space-y-3 flex-1 pr-1">
-                <!-- 动态由JS渲染今日订单[cite: 5] -->
+                <!-- 动态由JS渲染今日订单 -->
             </div>
             <div class="mt-4 pt-3 border-t border-[#E6D5B8] text-center text-xs text-[#7A6B63]">
                 💡 温馨提示：此处仅显示您今天成功提交的订单。
@@ -194,7 +194,7 @@
         </div>
     </div>
 
-    <!-- 全屏居中下单成功遮罩弹窗[cite: 5] -->
+    <!-- 全屏居中下单成功遮罩弹窗 -->
     <div id="order-success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#FFFDF9] border border-[#E6D5B8] rounded-[2rem] p-6 max-w-sm w-full shadow-2xl text-center space-y-4">
             <div class="text-5xl">🎉</div>
@@ -206,14 +206,14 @@
         </div>
     </div>
 
-    <!-- 丝滑自动消失 Toast 提示框[cite: 5] -->
+    <!-- 丝滑自动消失 Toast 提示框 -->
     <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-[#2C221E] text-[#FFD700] border border-[#D4AF37] px-6 py-3 rounded-full text-sm font-bold shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50">
         提示信息
     </div>
 
-    <!-- 菜单数据与脚本[cite: 5] -->
+    <!-- 菜单数据与脚本 -->
     <script>
-        // ☁️ 初始化 Firebase 实时云数据库[cite: 5]
+        // ☁️ 初始化 Firebase 实时云数据库
         const firebaseConfig = {
             apiKey: "AIzaSyDShBrt-3CAAGQf4eP1T1zNf0q95MtGyPA",
             authDomain: "restaurant-order-a8ed8.firebaseapp.com",
@@ -225,7 +225,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 动态初始化顶部桌号显示[cite: 5]
+        // 动态初始化顶部桌号显示
         const urlParams = new URLSearchParams(window.location.search);
         const currentTable = urlParams.get('table') || 'A08';
         document.addEventListener("DOMContentLoaded", () => {
@@ -233,7 +233,7 @@
             if (tableElem) tableElem.innerText = `${currentTable} 桌`;
         });
 
-        // 丝滑 Toast 提示函数[cite: 5]
+        // 丝滑 Toast 提示函数
         function showToast(msg) {
             const toast = document.getElementById('toast');
             if (!toast) return;
@@ -242,9 +242,9 @@
             setTimeout(() => toast.classList.add('opacity-0'), 2500);
         }
 
-        // 全菜单 50 道菜品[cite: 5]
+        // 全菜单 50 道菜品
         const dishes = [
-            // ==================== 1. 生猛海鲜[cite: 5] ====================
+            // ==================== 1. 生猛海鲜 ====================
             { id: 1, cat: 'seafood', name: '黑椒黄油焗波士顿龙虾', desc: '波士顿鲜活大龙虾，黄油黑椒浓香焗制', price: 0, isMarket: true, img: 'images/longxia.jpg', isRec: true },
             { id: 2, cat: 'seafood', name: '金牌原只鲍汁扣花胶', desc: '顶级花胶文火慢煨，浓郁鲍汁胶原满满', price: 0, isMarket: true, img: 'images/huajiao.jpg'},
             { id: 3, cat: 'seafood', name: '避风塘炒斯里兰卡蟹', desc: '大个斯里兰卡肉蟹，蒜香酥脆避风塘风味', price: 0, isMarket: true, img: 'images/xie.jpg', isRec: true },
@@ -259,7 +259,7 @@
             { id: 12, cat: 'seafood', name: '椒盐鲜鱿/大明虾', desc: '生猛鲜鱿大火急炸，椒盐惹味', price: 48.00, isMarket: false, img: 'images/xia.jpg'},
             { id: 13, cat: 'seafood', name: '葱油泼鲜鲍鱼', desc: '鲜活小鲍鱼清蒸后热葱油激发出极致鲜香', price: 68.00, isMarket: false, img: 'images/baoyu.jpg'},
 
-            // ==================== 2. 招牌肉类[cite: 5] ====================
+            // ==================== 2. 招牌肉类 ====================
             { id: 14, cat: 'meat', name: '招牌秘制黄金排骨王', desc: '酒楼镇店之宝，外酥里嫩，秘制酱汁包裹', price: 28.00, isMarket: false, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80', isRec: true },
             { id: 15, cat: 'meat', name: '正宗广式酸甜咕咾肉', desc: '经典粤菜，外脆内软，酸甜开胃', price: 26.00, isMarket: false, img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=500&q=80', isRec: true },
             { id: 16, cat: 'meat', name: '当红炸子鸡', desc: '皮脆肉嫩多汁，粤式经典脆皮烧鸡', price: 38.00, isMarket: false, img: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=500&q=80', isRec: true },
@@ -275,7 +275,7 @@
             { id: 26, cat: 'meat', name: '秘制蒙古风味猪扒', desc: '特调蒙古酱汁香煎，肉香浓郁', price: 28.00, isMarket: false, img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 27, cat: 'meat', name: '招牌秘制妈蜜鸡球', desc: '特制妈蜜酱风味，甜中带香，老少咸宜', price: 26.00, isMarket: false, img: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=500&q=80', isRec: false },
 
-            // ==================== 3. 滋味小炒[cite: 5] ====================
+            // ==================== 3. 滋味小炒 ====================
             { id: 28, cat: 'fry', name: '招牌铁盘海鲜豆腐', desc: '自制滑嫩豆腐铺底，海鲜酱汁滋滋作响', price: 22.00, isMarket: false, img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80', isRec: true },
             { id: 29, cat: 'fry', name: '传统香滑芙蓉蛋', desc: '鸡蛋大火煎至蓬松金黄，包裹葱花虾米', price: 16.00, isMarket: false, img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 30, cat: 'fry', name: '经典家常洋葱炒蛋', desc: '大葱爆香翻炒金黄鸡蛋，家常美味', price: 14.00, isMarket: false, img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80', isRec: false },
@@ -283,7 +283,7 @@
             { id: 32, cat: 'fry', name: '鲜虾仁滑蛋', desc: '鲜嫩大虾仁搭配滑蛋，口感丝滑', price: 22.00, isMarket: false, img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 33, cat: 'fry', name: '苦瓜炒咸蛋黄', desc: '甘苦适中，咸蛋黄包裹解腻开胃', price: 18.00, isMarket: false, img: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=500&q=80', isRec: false },
 
-            // ==================== 4. 爽口时蔬[cite: 5] ====================
+            // ==================== 4. 爽口时蔬 ====================
             { id: 34, cat: 'veg', name: '大火爆炒清甜油麦菜', desc: '猛火快炒，清脆爽口', price: 15.00, isMarket: false, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 35, cat: 'veg', name: '蒜蓉清炒香脆番薯叶', desc: '新鲜番薯叶蒜香清炒，农家风味', price: 14.00, isMarket: false, img: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 36, cat: 'veg', name: '金银蛋上汤苋菜', desc: '皮蛋咸蛋煲出浓郁上汤，滋补清甜', price: 18.00, isMarket: false, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80', isRec: false },
@@ -292,7 +292,7 @@
             { id: 39, cat: 'veg', name: '生啫唐生菜煲', desc: '砂锅唐生菜生啫爆香，保留爽脆与鲜甜', price: 18.00, isMarket: false, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 40, cat: 'veg', name: '咸蛋黄焗金南瓜', desc: '南瓜外脆内糯，裹满沙软咸蛋黄', price: 20.00, isMarket: false, img: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=500&q=80', isRec: false },
 
-            // ==================== 5. 主食白饭[cite: 5] ====================
+            // ==================== 5. 主食白饭 ====================
             { id: 41, cat: 'staple', name: '精选高级香米白饭', desc: '粒粒饱满，酒楼标配米饭', price: 2.00, isMarket: false, img: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 42, cat: 'staple', name: '经典槟城干炒河粉/金牌干炒牛河', desc: '锅气十足，河粉弹牙牛肉滑嫩', price: 18.00, isMarket: false, img: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=500&q=80', isRec: true },
             { id: 43, cat: 'staple', name: '招牌福建大碌面', desc: '浓郁黑酱油焖煮粗面，猪油渣提香', price: 18.00, isMarket: false, img: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=500&q=80', isRec: true },
@@ -300,7 +300,7 @@
             { id: 45, cat: 'staple', name: '生炒腊味糯米饭', desc: '广式腊肠腊肉生炒糯米，香糯暖胃', price: 22.00, isMarket: false, img: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=500&q=80', isRec: true },
             { id: 46, cat: 'staple', name: '砂锅生炒牛肉饭', desc: '砂锅高温生炒牛肉饭，焦香锅巴极诱人', price: 22.00, isMarket: false, img: 'https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=500&q=80', isRec: false },
 
-            // ==================== 6. 饮品甜品[cite: 5] ====================
+            // ==================== 6. 饮品甜品 ====================
             { id: 47, cat: 'drink', name: '泰国直供清甜冰镇大椰青', desc: '解腻神器，清甜解渴，现开现饮', price: 12.00, isMarket: false, img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 48, cat: 'drink', name: '鲜榨冰镇桔子酸梅汁', desc: '酸甜冰爽，消暑解腻', price: 6.00, isMarket: false, img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=80', isRec: false },
             { id: 49, cat: 'drink', name: '招牌港式杨枝甘露', desc: '芒果西柚西米露，香甜浓郁', price: 9.00, isMarket: false, img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=80', isRec: true },
@@ -311,7 +311,7 @@
         let activeModalDishId = null;
         let currentModalQty = 1;
 
-        // 菜品卡片渲染[cite: 5]
+        // 菜品卡片渲染
         function renderMenu(category = 'seafood') {
             const container = document.getElementById('menu-list');
             container.innerHTML = '';
@@ -327,11 +327,11 @@
                 const priceDisplay = dish.isMarket ? '<span class="text-[#D4AF37] font-black text-base">时价</span>' : `<span class="text-[#C59B27] font-black text-base">RM ${dish.price.toFixed(2)}</span>`;
 
                 const html = `
-                    <div class="bg-white border border-[#E6D5B8] rounded-2xl p-2.5 shadow-sm flex flex-col justify-between transition hover:shadow-md">
-                        <div class="relative w-full h-28 rounded-xl overflow-hidden mb-2 bg-[#F2EDE4] flex-shrink-0">
+                    <div class="bg-white border border-[#E6D5B8] rounded-2xl p-3 shadow-sm flex flex-col justify-between transition hover:shadow-md">
+                        <div class="relative w-full h-32 rounded-xl overflow-hidden mb-2.5 bg-[#F2EDE4] flex-shrink-0">
                             <img src="${dish.img}" alt="${dish.name}" class="w-full h-full object-cover">
                             ${dish.isRec ? `
-                                <div class="absolute top-1.5 left-1.5 z-20 bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 text-[10px] font-black px-1.5 py-0.5 rounded-md shadow flex items-center space-x-1">
+                                <div class="absolute top-2 left-2 z-20 bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 text-[10px] font-black px-2 py-0.5 rounded-md shadow flex items-center space-x-1">
                                     <span>👨‍🍳 厨师推荐</span>
                                 </div>
                             ` : ''}
@@ -343,13 +343,13 @@
                                 <p class="text-[11px] text-[#7A6B63] line-clamp-2 mt-1 leading-relaxed">${dish.desc}</p>
                             </div>
 
-                            <div class="flex justify-between items-center mt-2 pt-2 border-t border-[#F2EDE4]">
+                            <div class="flex justify-between items-center mt-2.5 pt-2.5 border-t border-[#F2EDE4]">
                                 ${priceDisplay}
-                                <div class="flex items-center space-x-1">
+                                <div class="flex items-center space-x-1.5">
                                     ${totalQtyForDish > 0 ? `
-                                        <span class="text-[#C59B27] font-bold text-[11px] bg-[#F2EDE4] px-1.5 py-0.5 rounded-md">已选 ${totalQtyForDish}</span>
+                                        <span class="text-[#C59B27] font-bold text-[11px] bg-[#F2EDE4] px-2 py-0.5 rounded-md">已选 ${totalQtyForDish}</span>
                                     ` : ''}
-                                    <button onclick="openDishModal(${dish.id})" class="bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white px-3 py-1 rounded-full text-xs font-bold shadow active:scale-95 transition">
+                                    <button onclick="openDishModal(${dish.id})" class="bg-gradient-to-r from-[#D4AF37] to-[#C59B27] text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow active:scale-95 transition">
                                         加入 +
                                     </button>
                                 </div>
@@ -363,11 +363,11 @@
 
         function filterMenu(cat) {
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition";
+                btn.className = "cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition";
             });
             const activeBtn = document.getElementById(`btn-${cat}`);
             if(activeBtn) {
-                activeBtn.className = "cat-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition";
+                activeBtn.className = "cat-btn flex-shrink-0 px-4.5 py-2 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition";
             }
             renderMenu(cat);
         }
@@ -475,13 +475,13 @@
                         const noteHtml = cartItem.note ? `<div class="text-[11px] text-[#C59B27] mt-0.5 font-medium">备注: ${cartItem.note}</div>` : '';
 
                         container.innerHTML += `
-                            <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-[#E6D5B8]">
+                            <div class="flex justify-between items-center bg-white p-3.5 rounded-xl border border-[#E6D5B8]">
                                 <div class="flex-1 min-w-0 pr-2">
                                     <h4 class="text-[#2C221E] text-sm font-bold truncate">${dish.name}</h4>
                                     <div class="text-[#C59B27] text-xs mt-0.5 font-bold">${priceText}</div>
                                     ${noteHtml}
                                 </div>
-                                <div class="flex items-center space-x-2 flex-shrink-0">
+                                <div class="flex items-center space-x-2.5 flex-shrink-0">
                                     <button onclick="updateCartItemQty(${dishId}, ${idx}, -1)" class="w-7 h-7 bg-[#F2EDE4] text-[#C59B27] rounded-full font-bold flex items-center justify-center text-sm">-</button>
                                     <span class="text-[#2C221E] font-bold text-sm w-5 text-center">${cartItem.qty}</span>
                                     <button onclick="updateCartItemQty(${dishId}, ${idx}, 1)" class="w-7 h-7 bg-[#D4AF37] text-white rounded-full font-bold flex items-center justify-center text-sm">+</button>
@@ -504,7 +504,7 @@
             modal.classList.toggle('hidden');
         }
 
-        // ==================== 今日已点订单逻辑[cite: 5] ====================
+        // ==================== 今日已点订单逻辑 ====================
         function getTodayDateStr() {
             const d = new Date();
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -558,7 +558,7 @@
                 });
 
                 container.innerHTML += `
-                    <div class="bg-white border border-[#E6D5B8] rounded-2xl p-3.5 shadow-sm space-y-2">
+                    <div class="bg-white border border-[#E6D5B8] rounded-2xl p-4 shadow-sm space-y-2">
                         <div class="flex justify-between items-center border-b border-[#F2EDE4] pb-2">
                             <span class="text-xs font-bold text-[#D4AF37]">第 ${orders.length - index} 轮下单 (${ord.time})</span>
                             <span class="text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">后厨已出单</span>
@@ -571,17 +571,17 @@
             });
         }
 
-        // 关闭全屏成功下单弹窗[cite: 5]
+        // 关闭全屏成功下单弹窗
         function closeOrderSuccessModal() {
             document.getElementById('order-success-modal').classList.add('hidden');
         }
 
-        // ☁️ 异步云端提交 (已加入强制失焦与滚动归位，彻底根治页面上移问题)[cite: 5]
+        // ☁️ 异步云端提交 (已加入强制失焦与滚动归位，彻底根治页面上移问题)
         async function checkoutOrder() {
             const phoneInput = document.getElementById('customer-phone');
             const phone = phoneInput.value.trim();
             
-            // 立即强制输入框失焦并收起键盘，同时强行重置页面滚动位置到最顶端[cite: 5]
+            // 立即强制输入框失焦并收起键盘，同时强行重置页面滚动位置到最顶端
             phoneInput.blur();
             window.scrollTo(0, 0);
 
@@ -620,10 +620,10 @@
 
             const orderTotalPrice = window.currentCartTotalPrice || 0;
 
-            // 👉 1. 保存到 Firebase 会员云端画像[cite: 5]
+            // 👉 1. 保存到 Firebase 会员云端画像
             await updateCustomerProfileInCloud(phone, orderItemsData, orderTotalPrice);
 
-            // 👉 2. 如果包含时价菜，写入后台待核算队列[cite: 5]
+            // 👉 2. 如果包含时价菜，写入后台待核算队列
             if (hasMarketPrice) {
                 try {
                     await db.collection('market_price_queue').add({
@@ -644,7 +644,7 @@
                 items: orderItemsData
             });
 
-            // 清空购物车并关闭抽屉[cite: 5]
+            // 清空购物车并关闭抽屉
             cart = {};
             updateCartUI();
             toggleCartModal();
@@ -654,16 +654,16 @@
             btn.disabled = false;
             btn.innerText = '确认提交订单 (云端同步至后台)';
 
-            // 二次确保视口归位，并弹出强制居中的成功弹窗[cite: 5]
+            // 二次确保视口归位，并弹出强制居中的成功弹窗
             window.scrollTo(0, 0);
             document.getElementById('success-modal-title').innerText = `🎉 鼎盛轩下单成功！桌号：${currentTable} 桌`;
             document.getElementById('order-success-modal').classList.remove('hidden');
         }
 
-        // 默认加载生猛海鲜[cite: 5]
+        // 默认加载生猛海鲜
         filterMenu('seafood');
 
-        // ☁️ 核心云端同步函数[cite: 5]
+        // ☁️ 核心云端同步函数
         async function updateCustomerProfileInCloud(customerPhone, currentOrderItems, currentOrderTotal) {
             try {
                 const memberRef = db.collection('restaurant_members').doc(customerPhone);
