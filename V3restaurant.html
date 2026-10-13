@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <!-- 👉 已移除置顶属性：顶部横向滚动分类导航条（恢复为随页面正常滚动的原版） -->
+    <!-- 顶部横向滚动分类导航条（保持原版自然滚动） -->
     <div class="bg-[#F2EDE4] border-b border-[#E6D5B8] px-3 py-2 flex space-x-2 overflow-x-auto no-scrollbar shadow-sm flex-shrink-0">
         <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition">
             🦐 生猛海鲜
@@ -225,12 +225,22 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 动态初始化顶部桌号显示
+        // 动态初始化顶部桌号显示及 5 小时内缓存手机号自动回填
         const urlParams = new URLSearchParams(window.location.search);
         const currentTable = urlParams.get('table') || 'A08';
         document.addEventListener("DOMContentLoaded", () => {
             const tableElem = document.getElementById('display-table-num');
             if (tableElem) tableElem.innerText = `${currentTable} 桌`;
+
+            // 自动回填 5 小时内的缓存手机号，加单更流畅
+            try {
+                const CACHE_WINDOW_MS = 5 * 60 * 60 * 1000;
+                const cached = JSON.parse(localStorage.getItem('dsx_phone_cache'));
+                if (cached && cached.phone && (new Date().getTime() - cached.timestamp < CACHE_WINDOW_MS)) {
+                    const phoneInput = document.getElementById('customer-phone');
+                    if (phoneInput) phoneInput.value = cached.phone;
+                }
+            } catch(e) {}
         });
 
         // 丝滑 Toast 提示函数
@@ -577,13 +587,27 @@
             document.getElementById('order-success-modal').classList.add('hidden');
         }
 
-        // ☁️ 异步云端提交 (已加入强制失焦与滚动归位，彻底根治页面上移问题)
+        // ☁️ 异步云端提交 (已集成 5 小时内智能加单免重复输入 + 键盘失焦视口归位)
         async function checkoutOrder() {
+            const CACHE_WINDOW_MS = 5 * 60 * 60 * 1000; // 5 小时有效窗口
+            let phone = '';
+
+            // 1. 优先读取 5 小时内的缓存手机号
+            try {
+                const cached = JSON.parse(localStorage.getItem('dsx_phone_cache'));
+                if (cached && cached.phone && (new Date().getTime() - cached.timestamp < CACHE_WINDOW_MS)) {
+                    phone = cached.phone;
+                }
+            } catch(e) {}
+
+            // 2. 如果缓存不存在或已过 5 小时，从输入框读取
             const phoneInput = document.getElementById('customer-phone');
-            const phone = phoneInput.value.trim();
+            if (!phone && phoneInput) {
+                phone = phoneInput.value.trim();
+            }
             
             // 立即强制输入框失焦并收起键盘，同时强行重置页面滚动位置到最顶端
-            phoneInput.blur();
+            if (phoneInput) phoneInput.blur();
             window.scrollTo(0, 0);
 
             let totalCount = 0;
@@ -593,10 +617,18 @@
                 showToast('请先选择您想享用的菜品！');
                 return;
             }
-            if (phone.length < 7) {
+            if (!phone || phone.length < 7) {
                 showToast('为了方便为您出餐及累计会员积分，请输入正确的手机号码！');
                 return;
             }
+
+            // 3. 成功下单时，更新/写入 5 小时缓存及时间戳
+            try {
+                localStorage.setItem('dsx_phone_cache', JSON.stringify({
+                    phone: phone,
+                    timestamp: new Date().getTime()
+                }));
+            } catch(e) {}
 
             const btn = document.getElementById('checkout-btn');
             btn.disabled = true;
@@ -649,7 +681,7 @@
             cart = {};
             updateCartUI();
             toggleCartModal();
-            phoneInput.value = '';
+            if (phoneInput) phoneInput.value = '';
             filterMenu('seafood');
 
             btn.disabled = false;
