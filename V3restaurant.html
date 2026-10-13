@@ -56,8 +56,8 @@
         </div>
     </div>
 
-    <!-- 👉 精准恢复：顶部横向滚动分类导航条（恢复为您截图中精致、轻巧、清爽的原始尺寸） -->
-    <div class="sticky top-0 z-20 bg-[#F2EDE4] border-b border-[#E6D5B8] px-3 py-2 flex space-x-2 overflow-x-auto no-scrollbar shadow-sm">
+    <!-- 👉 已移除置顶属性：顶部横向滚动分类导航条（恢复为随页面正常滚动的原版） -->
+    <div class="bg-[#F2EDE4] border-b border-[#E6D5B8] px-3 py-2 flex space-x-2 overflow-x-auto no-scrollbar shadow-sm flex-shrink-0">
         <button onclick="filterMenu('seafood')" id="btn-seafood" class="cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#D4AF37] text-white shadow transition">
             🦐 生猛海鲜
         </button>
@@ -361,7 +361,7 @@
             });
         }
 
-        // 分类切换函数（恢复原版精致按钮类名）
+        // 分类切换函数（原版）
         function filterMenu(cat) {
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.className = "cat-btn flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white text-[#5C4A42] border border-[#E6D5B8] shadow-sm transition";
