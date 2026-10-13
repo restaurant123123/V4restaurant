@@ -19,20 +19,27 @@
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+
+        /* 👉 优化无缝跑马灯动画：从 0% 起始，一打开页面立即显示文字 */
+        @keyframes marquee-seamless {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
         }
-        .animate-marquee { animation: marquee 18s linear infinite; }
+        .animate-marquee-seamless { 
+            display: flex;
+            width: max-content;
+            animation: marquee-seamless 25s linear infinite; 
+        }
     </style>
 </head>
 <!-- 恢复自然流畅的网页滚动与舒展空间 -->
 <body class="min-h-screen pb-28 flex flex-col">
 
-    <!-- 顶端流光跑马灯公告条 -->
+    <!-- 👉 顶端无缝跑马灯公告条（打开即见，零等待） -->
     <div class="bg-gradient-to-r from-[#D4AF37] via-[#E6C687] to-[#D4AF37] text-[#2C221E] text-xs font-bold py-2 overflow-hidden whitespace-nowrap shadow-sm">
-        <div class="animate-marquee inline-block">
-            ✨ 欢迎光临【鼎盛轩】豪华大酒楼！今日生猛澳洲大龙虾、游水海鲜空运直达！贵宾订座专线：012-XXXXXXX ✨ 消费满 RM150 尊享主厨精美甜品一份 ✨
+        <div class="animate-marquee-seamless">
+            <span class="pr-8">✨ 欢迎光临【鼎盛轩】豪华大酒楼！今日生猛澳洲大龙虾、游水海鲜空运直达！贵宾订座专线：012-XXXXXXX ✨ 消费满 RM150 尊享主厨精美甜品一份 ✨</span>
+            <span class="pr-8">✨ 欢迎光临【鼎盛轩】豪华大酒楼！今日生猛澳洲大龙虾、游水海鲜空运直达！贵宾订座专线：012-XXXXXXX ✨ 消费满 RM150 尊享主厨精美甜品一份 ✨</span>
         </div>
     </div>
 
@@ -509,7 +516,7 @@
             window.currentCartTotalPrice = totalPrice;
         }
 
-        // 👉 核心优化：每次打开购物车弹窗时，自动回填 5 小时内的缓存手机号，让顾客一眼知晓
+        // 打开购物车弹窗时，自动回填 5 小时内的缓存手机号
         function toggleCartModal() {
             const modal = document.getElementById('cart-modal');
             const isHidden = modal.classList.contains('hidden');
