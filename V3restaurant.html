@@ -225,14 +225,13 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 动态初始化顶部桌号显示及 5 小时内缓存手机号自动回填
+        // 动态初始化顶部桌号显示及页面加载时自动回填缓存手机号
         const urlParams = new URLSearchParams(window.location.search);
         const currentTable = urlParams.get('table') || 'A08';
         document.addEventListener("DOMContentLoaded", () => {
             const tableElem = document.getElementById('display-table-num');
             if (tableElem) tableElem.innerText = `${currentTable} 桌`;
 
-            // 自动回填 5 小时内的缓存手机号，加单更流畅
             try {
                 const CACHE_WINDOW_MS = 5 * 60 * 60 * 1000;
                 const cached = JSON.parse(localStorage.getItem('dsx_phone_cache'));
@@ -510,9 +509,24 @@
             window.currentCartTotalPrice = totalPrice;
         }
 
+        // 👉 核心优化：每次打开购物车弹窗时，自动回填 5 小时内的缓存手机号，让顾客一眼知晓
         function toggleCartModal() {
             const modal = document.getElementById('cart-modal');
+            const isHidden = modal.classList.contains('hidden');
             modal.classList.toggle('hidden');
+
+            if (isHidden) {
+                try {
+                    const CACHE_WINDOW_MS = 5 * 60 * 60 * 1000;
+                    const cached = JSON.parse(localStorage.getItem('dsx_phone_cache'));
+                    const phoneInput = document.getElementById('customer-phone');
+                    if (cached && cached.phone && (new Date().getTime() - cached.timestamp < CACHE_WINDOW_MS)) {
+                        if (phoneInput && !phoneInput.value) {
+                            phoneInput.value = cached.phone;
+                        }
+                    }
+                } catch(e) {}
+            }
         }
 
         // ==================== 今日已点订单逻辑 ====================
